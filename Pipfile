@@ -5,6 +5,14 @@ name = "pypi"
 
 [packages]
 django = "*"
+lxml = "*"
+zeep = "*"
+spyne = "*"
+six = "*"
+graphqlclient = "*"
+django-cors-headers = "*"
+djangorestframework = "*"
+pillow = "*"
 
 [dev-packages]
 
