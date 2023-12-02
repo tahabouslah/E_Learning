@@ -2,15 +2,20 @@ from django.shortcuts import render
 from rest_framework import status
 from .models import *
 from .serializers import *
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
+from rest_framework.permissions import (
+    IsAuthenticatedOrReadOnly,
+    IsAdminUser,
+    IsAuthenticated,
+)
 
 # Create your views here.
 
 
 # COURSE
 @api_view(["GET", "POST"])
-def user_list(request):
+def user_list(request, format=None):
     if request.method == "GET":
         users = User.objects.all()
         serializer = UserSerializer(users, many=True)
@@ -49,6 +54,7 @@ def user_detail(request, pk):
 
 # COURSE
 @api_view(["GET", "POST"])
+@permission_classes([IsAuthenticated])
 def course_list(request):
     if request.method == "GET":
         courses = Course.objects.all()
@@ -64,6 +70,7 @@ def course_list(request):
 
 
 @api_view(["GET", "PUT", "DELETE"])
+@permission_classes([IsAdminUser])
 def course_detail(request, pk):
     try:
         course = Course.objects.get(pk=pk)
@@ -357,3 +364,60 @@ def enrollment_detail(request, pk):
     elif request.method == "DELETE":
         enrollment.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+
+@api_view(["GET", "POST"])
+@permission_classes[IsAuthenticated]
+def enroll_in_course(request, pk):
+    user = request.user
+    course = Course.objects.get(id=pk)
+
+    if Enrollment.objects.filter(user=user, course=course).exists():
+        return Response(
+            {"message": "User is already enrolled in this course."},
+            status=status.HTTP_400_BAD_REQUEST,
+        )
+
+    enrollment = Enrollment.objects.create(user=user, course=course)
+
+    serializer = EnrollmentSerializer(enrollment)
+    return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+
+@api_view(["GET"])
+@permission_classes([IsAuthenticated])
+def get_grades_and_feedback(request, student_id, course_id):
+    try:
+        student = User.objects.get(id=student_id)
+        course = Course.objects.get(id=course_id)
+    except User.DoesNotExist:
+        return Response(
+            {"message": "Student not found"}, status=status.HTTP_404_NOT_FOUND
+        )
+    except Course.DoesNotExist:
+        return Response(
+            {"message": "Course not found"}, status=status.HTTP_404_NOT_FOUND
+        )
+
+    grades = Grade.objects.filter(student=student, assignment__course=course)
+    serializer = GradeSerializer(grades, many=True)
+    return Response(serializer.data)
+
+
+@api_view(["GET"])
+@permission_classes([IsAuthenticated])
+def access_course_materials(request, course_id):
+    user = request.user
+
+    is_enrolled = Enrollment.objects.filter(user=user, course__id=course_id).exists()
+
+    if not is_enrolled:
+        return Response(
+            {"message": "You are not enrolled in this course."},
+            status=status.HTTP_403_FORBIDDEN,
+        )
+
+    materials = Material.objects.filter(course__id=course_id)
+    serializer = MaterialSerializer(materials, many=True)
+
+    return Response(serializer.data, status=status.HTTP_200_OK)
