@@ -2,11 +2,10 @@ from .models import *
 from rest_framework import serializers
 
 
-class UserSerializer(serializers.ModelSerializer):
+class ReclamationSerializer(serializers.ModelSerializer):
     class Meta:
-        model = User
+        model = Reclamation
         fields = "__all__"
-
 
 class CourseSerializer(serializers.ModelSerializer):
     class Meta:

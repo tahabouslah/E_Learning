@@ -1,0 +1,139 @@
+POST http://127.0.0.1:8000/register
+Content-Type: application/json
+
+{"username":"taha" ,"password":"333333","email":"taha@gamil.com","role":"Student"}
+
+####
+
+POST http://127.0.0.1:8000/login
+Content-Type: application/json
+
+{"username":"younes" ,"password":"222222"}
+
+####
+POST http://127.0.0.1:8000/logout
+Authorization: Token 00da3158b5ec3d48ce6634c1b147df9d40c25311
+
+Content-Type: application/json
+
+####
+POST http://127.0.0.1:8000/create_reclamation
+Authorization: Token 50902da445dd4eedc679d4fb2c9e6414516d2912
+Content-Type: application/json
+
+{
+  "description": "the plannign of corses is bad",
+  "CustomUser": 2
+}
+
+####
+GET http://127.0.0.1:8000/liste_reclamtions
+Authorization: Token 00da3158b5ec3d48ce6634c1b147df9d40c25311
+
+Content-Type: application/json
+
+####
+DELETE  http://127.0.0.1:8000/delete_reclamation/4/
+Authorization: Token 00da3158b5ec3d48ce6634c1b147df9d40c25311
+
+Content-Type: application/json
+
+
+
+####
+POST http://127.0.0.1:8000/create_course
+Authorization: Token 00da3158b5ec3d48ce6634c1b147df9d40c25311
+Content-Type: application/json
+
+{
+    "title":"SOAP",
+    "description": "the plannign of corses is bad",
+    "enrollment_capacity": 20,
+    "tutor": 2
+}
+
+####
+
+GET http://127.0.0.1:8000/liste_courses
+Authorization: Token 00da3158b5ec3d48ce6634c1b147df9d40c25311
+
+Content-Type: application/json
+
+####
+
+PUT http://127.0.0.1:8000/update_course/1/
+Authorization: Token 00da3158b5ec3d48ce6634c1b147df9d40c25311
+Content-Type: application/json
+
+{
+    "title":"SOAP",
+    "description": "SOAP tutorial for beginners ",
+    "enrollment_capacity": 20,
+    "tutor": 2
+}
+
+
+
+####
+
+DELETE  http://127.0.0.1:8000/delete_course/2/
+Authorization: Token 00da3158b5ec3d48ce6634c1b147df9d40c25311
+
+Content-Type: application/json
+
+####
+
+GET http://127.0.0.1:8000/liste_material/1/
+Authorization: Token 00da3158b5ec3d48ce6634c1b147df9d40c25311
+
+Content-Type: application/json
+
+####
+
+DELETE  http://127.0.0.1:8000/delete_material/1/2/
+Authorization: Token 00da3158b5ec3d48ce6634c1b147df9d40c25311
+
+Content-Type: application/json
+
+
+####
+
+GET http://127.0.0.1:8000/liste_assignement/1/
+Authorization: Token 00da3158b5ec3d48ce6634c1b147df9d40c25311
+
+Content-Type: application/json
+
+####
+
+DELETE  http://127.0.0.1:8000/delete_assignement/1/1/
+Authorization: Token 00da3158b5ec3d48ce6634c1b147df9d40c25311
+
+Content-Type: application/json
+
+#### 
+
+POST http://127.0.0.1:8000/add_student/1/4/
+Authorization: Token 00da3158b5ec3d48ce6634c1b147df9d40c25311
+Content-Type: application/json
+
+{"student": 4 , "course":1}
+
+####
+DELETE  http://127.0.0.1:8000/delete_student/1/4/
+Authorization: Token 00da3158b5ec3d48ce6634c1b147df9d40c25311
+Content-Type: application/json
+
+####
+
+GET http://127.0.0.1:8000/liste_enrollement/1/
+Authorization: Token 00da3158b5ec3d48ce6634c1b147df9d40c25311
+Content-Type: application/json
+
+
+
+
+
+
+
+
+
