@@ -35,15 +35,4 @@ urlpatterns = [
     # ENROLLMENT
     path("enrollment/", enrollment_list, name="enrollment_list"),
     path("enrollment/<int:pk>/", enrollment_detail, name="enrollment_detail"),
-    path("enroll/<int:pk>/", enroll_in_course, name="enroll_in_course"),
-    path(
-        "api/grades/<int:student_id>/<int:course_id>/",
-        get_grades_and_feedback,
-        name="get_grades_and_feedback",
-    ),
-    path(
-        "api/access-materials/<int:course_id>/",
-        access_course_materials,
-        name="access_course_materials",
-    ),
 ]
